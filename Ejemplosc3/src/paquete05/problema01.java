@@ -13,43 +13,59 @@ public class Problema01 {
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
 
-        String[] nombresEstaciones = new String[5];
-        String[] encargados = new String[5];
-        double[][] produccion = new double[5][12];
-        double[] totalProduccion = {1000, 3000, 1200, 1300, 2400};
+        int[][] estaciones = new int[5][12];
+        String[] nombres = new String[5];
+        int[] produ = new int[5];
 
-        for (int i = 0; i < 5; i++) {
-            System.out.println("Ingrese nombre de la estacion " + (i + 1) +":");
-            nombresEstaciones[i] = entrada.nextLine();
+        int valor1 = 0;
+        int mayor;
+        String report = "";
 
-            System.out.println("Ingrese nombre del encargado por favor:");
-            encargados[i] = entrada.nextLine();
+        for (int fila = 0; fila < estaciones.length; fila++) {
 
-            for (int j = 0; j < 12; j++) {
-                System.out.println("Produccion del mes " + (j + 1) + ":");
-                produccion[i][j] = entrada.nextDouble();
+            System.out.printf("Ingrese el nombre de la estacion %s:\n", fila + 1);
+            nombres[fila] = entrada.nextLine();
+
+            int suma = 0;
+
+            for (int col = 0; col < estaciones[fila].length; col++) {
+                System.out.printf("Ingrese la produccion del mes %s:\n", col + 1);
+                estaciones[fila][col] = entrada.nextInt();
+                suma = suma + estaciones[fila][col];
             }
             entrada.nextLine();
+            produ[fila] = suma;
         }
-        for (int i = 0; i < 5; i++) {
-            totalProduccion[i] = 0;
-            for (int j = 0; j < 12; j++) {
-                totalProduccion[i] = totalProduccion[i] + produccion[i][j];
+
+        mayor = produ[0];
+        valor1 = 0;
+
+        for (int fila = 1; fila < produ.length; fila++) {
+            if (produ[fila] > mayor) {
+                mayor = produ[fila];
+                valor1 = fila;
             }
         }
-        
-        double valor1 = totalProduccion[0];
-        int indiceM = 0;
 
-        for (int i = 1; i < 5; i++) {
-            if (totalProduccion[i] > valor1) {
-                valor1 = totalProduccion[i];
-                  i= indiceM;
-        
+        double valorprodu = produ.length;
+        for (int fila = 0; fila < valorprodu; fila++) {
+            report = String.format(
+                    "%s%sEstacion   - Total Produccion: $%s\n",
+                    report,
+                    nombres[fila],
+                    produ[fila]
+            );
+        }
 
-        }
-        }
-        }
+        report = String.format(
+                "%sEstacion mas productiva: Estacion %s\n"
+                + "Encargado de la estacion: %s\n"
+                + "Cantidad de la estacion mas productiva: $%s\n",
+                report,
+                valor1 + 1,
+                nombres[valor1],
+                produ[valor1]
+        );
+        System.out.println(report);
     }
-    
-            
+}
